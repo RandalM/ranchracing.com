@@ -1,0 +1,357 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ranch Racing | Custom Wiring Harnesses & Automotive Electronics</title>
+  <meta name="description" content="Ranch Racing builds custom wiring harnesses, designs custom PCBs and electronics, and repairs electrical systems for classic cars and race cars.">
+  <link rel="canonical" href="https://ranchracing.com/">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <meta property="og:title" content="Ranch Racing">
+  <meta property="og:description" content="Custom wiring harnesses and low-cost electronics for classic cars and race cars.">
+  <meta property="og:url" content="https://ranchracing.com/">
+  <meta property="og:type" content="website">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0e1114;
+      --bg-2: #151a1f;
+      --panel: #1a2027;
+      --line: #2a323b;
+      --text: #e7ebef;
+      --muted: #9aa6b2;
+      --accent: #ff8a1f;
+      --accent-2: #ffb35c;
+      --ok: #3ddc84;
+      --radius: 10px;
+      --wrap: 1120px;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font: 16px/1.6 Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: var(--accent); }
+    img, svg { max-width: 100%; display: block; }
+    .wrap { max-width: var(--wrap); margin: 0 auto; padding: 0 20px; }
+    .mono { font-family: "JetBrains Mono", ui-monospace, monospace; }
+    h1, h2, h3 { font-family: "Barlow Condensed", Inter, sans-serif; letter-spacing: .01em; line-height: 1.05; margin: 0 0 .4em; }
+    h1 { font-size: clamp(2.6rem, 7vw, 4.6rem); text-transform: uppercase; }
+    h2 { font-size: clamp(2rem, 4.5vw, 2.8rem); text-transform: uppercase; }
+    h3 { font-size: 1.45rem; }
+    p { margin: 0 0 1em; }
+    .eyebrow {
+      font-family: "JetBrains Mono", monospace; font-size: .8rem; color: var(--accent);
+      text-transform: uppercase; letter-spacing: .14em; margin-bottom: .8rem; display: inline-block;
+    }
+
+    /* Header */
+    header {
+      position: sticky; top: 0; z-index: 10;
+      background: rgba(14,17,20,.88); backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--line);
+    }
+    .nav { display: flex; align-items: center; justify-content: space-between; height: 64px; gap: 16px; }
+    .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--text); }
+    .brand img { width: 32px; height: 32px; }
+    .brand span { font-family: "Barlow Condensed", sans-serif; font-weight: 700; font-size: 1.5rem; text-transform: uppercase; letter-spacing: .04em; }
+    .brand b { color: var(--accent); font-weight: 700; }
+    nav ul { list-style: none; display: flex; gap: 26px; margin: 0; padding: 0; }
+    nav a { color: var(--muted); text-decoration: none; font-weight: 500; font-size: .95rem; }
+    nav a:hover { color: var(--text); }
+    .btn {
+      display: inline-block; background: var(--accent); color: #111; font-weight: 600;
+      padding: 12px 22px; border-radius: 8px; text-decoration: none; border: 0; cursor: pointer;
+      font: 600 1rem Inter, sans-serif; transition: background .15s;
+    }
+    .btn:hover { background: var(--accent-2); }
+    .btn.ghost { background: transparent; color: var(--text); border: 1px solid var(--line); }
+    .btn.ghost:hover { border-color: var(--accent); }
+    .nav .btn { padding: 8px 16px; font-size: .9rem; }
+    @media (max-width: 760px) { nav ul { display: none; } }
+
+    /* Hero */
+    .hero {
+      position: relative; overflow: hidden; border-bottom: 1px solid var(--line);
+      background:
+        linear-gradient(var(--bg) 0, transparent 30%, transparent 70%, var(--bg) 100%),
+        repeating-linear-gradient(0deg, transparent 0 39px, rgba(255,255,255,.035) 39px 40px),
+        repeating-linear-gradient(90deg, transparent 0 39px, rgba(255,255,255,.035) 39px 40px);
+    }
+    .hero .wrap { display: grid; grid-template-columns: 1.1fr .9fr; gap: 40px; align-items: center; padding-top: 88px; padding-bottom: 88px; }
+    .hero p.lead { font-size: 1.15rem; color: var(--muted); max-width: 34em; }
+    .hero h1 em { font-style: normal; color: var(--accent); }
+    .cta { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 28px; }
+    .schematic { width: 100%; height: auto; }
+    .schematic .wire { fill: none; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+    .schematic .flow { stroke-dasharray: 6 10; animation: flow 1.6s linear infinite; }
+    @keyframes flow { to { stroke-dashoffset: -32; } }
+    @media (prefers-reduced-motion: reduce) { .schematic .flow { animation: none; } html { scroll-behavior: auto; } }
+    @media (max-width: 860px) {
+      .hero .wrap { grid-template-columns: 1fr; padding-top: 56px; padding-bottom: 56px; }
+      .hero .art { max-width: 460px; }
+    }
+
+    /* Sections */
+    section { padding: 88px 0; }
+    section.alt { background: var(--bg-2); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+    .section-head { max-width: 640px; margin-bottom: 44px; }
+    .section-head p { color: var(--muted); }
+
+    .grid { display: grid; gap: 20px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+    .card {
+      background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius);
+      padding: 28px 24px; position: relative; transition: border-color .15s, transform .15s;
+    }
+    .card:hover { border-color: var(--accent); transform: translateY(-2px); }
+    .card .icon { width: 44px; height: 44px; margin-bottom: 18px; color: var(--accent); }
+    .card p { color: var(--muted); margin: 0; }
+    .card .tag { position: absolute; top: 16px; right: 18px; font-size: .72rem; color: var(--muted); }
+
+    .split { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: start; }
+    @media (max-width: 860px) { .split { grid-template-columns: 1fr; gap: 32px; } }
+    .checklist { list-style: none; padding: 0; margin: 0; }
+    .checklist li { padding: 14px 0 14px 34px; border-bottom: 1px solid var(--line); position: relative; }
+    .checklist li:last-child { border-bottom: 0; }
+    .checklist li::before {
+      content: ""; position: absolute; left: 4px; top: 21px; width: 12px; height: 12px;
+      border: 2px solid var(--accent); border-radius: 50%;
+    }
+    .checklist strong { display: block; }
+    .checklist span { color: var(--muted); font-size: .95rem; }
+
+    .steps { counter-reset: step; display: grid; gap: 20px; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+    .step { border-top: 2px solid var(--accent); padding-top: 18px; }
+    .step::before { counter-increment: step; content: "0" counter(step); font-family: "JetBrains Mono", monospace; color: var(--accent); font-size: .9rem; }
+    .step h3 { margin-top: 6px; }
+    .step p { color: var(--muted); margin: 0; }
+
+    /* Contact */
+    form { display: grid; gap: 16px; }
+    .row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    @media (max-width: 560px) { .row { grid-template-columns: 1fr; } }
+    label { display: grid; gap: 6px; font-size: .9rem; color: var(--muted); }
+    input, select, textarea {
+      width: 100%; background: var(--bg); color: var(--text); border: 1px solid var(--line);
+      border-radius: 8px; padding: 12px 14px; font: inherit;
+    }
+    input:focus, select:focus, textarea:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(255,138,31,.2); }
+    textarea { min-height: 150px; resize: vertical; }
+    .form-note { font-size: .85rem; color: var(--muted); margin: 0; }
+    .form-status { font-size: .95rem; margin: 0; min-height: 1.4em; }
+    .form-status.ok { color: var(--ok); }
+    .form-status.err { color: #ff6b6b; }
+    .hp { position: absolute; left: -9999px; }
+
+    footer { border-top: 1px solid var(--line); padding: 32px 0; color: var(--muted); font-size: .9rem; }
+    footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <a class="brand" href="#top" aria-label="Ranch Racing home">
+      <img src="favicon.svg" alt="">
+      <span>Ranch <b>Racing</b></span>
+    </a>
+    <nav aria-label="Main">
+      <ul>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#why">Why us</a></li>
+        <li><a href="#process">Process</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+    <a class="btn" href="#contact">Get a quote</a>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero">
+    <div class="wrap">
+      <div>
+        <span class="eyebrow">// Wiring harnesses &amp; automotive electronics</span>
+        <h1>Wired right.<br><em>Built to race.</em></h1>
+        <p class="lead">Ranch Racing builds custom wiring harnesses, designs purpose-built electronics, and sorts out electrical gremlins for classic cars and race cars, without the boutique price tag.</p>
+        <div class="cta">
+          <a class="btn" href="#contact">Start a project</a>
+          <a class="btn ghost" href="#services">See services</a>
+        </div>
+      </div>
+      <div class="art" aria-hidden="true">
+        <svg class="schematic" viewBox="0 0 440 340">
+          <!-- connector block -->
+          <rect x="20" y="110" width="70" height="120" rx="8" fill="#1a2027" stroke="#2a323b" stroke-width="2"/>
+          <g fill="#0e1114" stroke="#9aa6b2" stroke-width="1.5">
+            <circle cx="55" cy="135" r="6"/><circle cx="55" cy="160" r="6"/><circle cx="55" cy="185" r="6"/><circle cx="55" cy="210" r="6"/>
+          </g>
+          <!-- wires -->
+          <path class="wire" stroke="#ff8a1f" d="M61 135 H160 Q180 135 190 115 L215 70 Q225 50 245 50 H330"/>
+          <path class="wire flow" stroke="#ffd9b0" d="M61 135 H160 Q180 135 190 115 L215 70 Q225 50 245 50 H330"/>
+          <path class="wire" stroke="#e5484d" d="M61 160 H170 Q190 160 200 145 L225 120 H330"/>
+          <path class="wire" stroke="#3b82f6" d="M61 185 H170 Q190 185 200 200 L225 225 H330"/>
+          <path class="wire flow" stroke="#bcd4ff" d="M61 185 H170 Q190 185 200 200 L225 225 H330"/>
+          <path class="wire" stroke="#e7ebef" d="M61 210 H160 Q180 210 190 230 L215 275 Q225 295 245 295 H330"/>
+          <!-- heatshrink -->
+          <rect x="120" y="125" width="26" height="95" rx="5" fill="#0e1114" stroke="#2a323b" stroke-width="2"/>
+          <!-- module -->
+          <rect x="330" y="30" width="90" height="70" rx="6" fill="#1a2027" stroke="#ff8a1f" stroke-width="2"/>
+          <text x="375" y="70" fill="#ff8a1f" font-family="JetBrains Mono, monospace" font-size="13" text-anchor="middle">ECU</text>
+          <rect x="330" y="105" width="90" height="135" rx="6" fill="#1a2027" stroke="#2a323b" stroke-width="2"/>
+          <g fill="#2a323b"><rect x="345" y="125" width="60" height="8" rx="2"/><rect x="345" y="140" width="40" height="8" rx="2"/><rect x="345" y="155" width="52" height="8" rx="2"/></g>
+          <g fill="#ff8a1f"><rect x="345" y="190" width="10" height="28" rx="2"/><rect x="360" y="200" width="10" height="18" rx="2"/><rect x="375" y="184" width="10" height="34" rx="2"/><rect x="390" y="194" width="10" height="24" rx="2"/></g>
+          <rect x="330" y="265" width="90" height="55" rx="6" fill="#1a2027" stroke="#2a323b" stroke-width="2"/>
+          <text x="375" y="298" fill="#9aa6b2" font-family="JetBrains Mono, monospace" font-size="12" text-anchor="middle">GND</text>
+          <text x="20" y="96" fill="#9aa6b2" font-family="JetBrains Mono, monospace" font-size="11">C101</text>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <section id="services">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">// Services</span>
+        <h2>What we build</h2>
+        <p>From a single sub-harness to a full chassis loom and the electronics that plug into it.</p>
+      </div>
+      <div class="grid">
+        <article class="card">
+          <span class="tag mono">01</span>
+          <svg class="icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M4 14h12c6 0 6 20 12 20h16M4 24h40M4 34h12c6 0 6-20 12-20h16"/></svg>
+          <h3>Custom wiring harnesses</h3>
+          <p>Engine, chassis, and dash harnesses built to your car and your layout: engine swaps, EFI conversions, and full race looms, labeled and documented.</p>
+        </article>
+        <article class="card">
+          <span class="tag mono">02</span>
+          <svg class="icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round"><rect x="10" y="10" width="28" height="28" rx="3"/><path d="M18 4v6M30 4v6M18 38v6M30 38v6M4 18h6M4 30h6M38 18h6M38 30h6"/><circle cx="24" cy="24" r="4"/></svg>
+          <h3>Custom PCB &amp; electronics design</h3>
+          <p>Purpose-built control boards, sensor interfaces, and microcontroller firmware for the jobs off-the-shelf parts don't cover.</p>
+        </article>
+        <article class="card">
+          <span class="tag mono">03</span>
+          <svg class="icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M28 6 14 26h10l-4 16 14-20H24z"/></svg>
+          <h3>Repair &amp; diagnostics</h3>
+          <p>Intermittent faults, melted connectors, mystery drains, and previous-owner wiring. We trace it, fix it properly, and tell you what we found.</p>
+        </article>
+        <article class="card">
+          <span class="tag mono">04</span>
+          <svg class="icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><circle cx="24" cy="26" r="16"/><path d="M24 26 33 17M12 26h3M33 26h3M24 14v3"/></svg>
+          <h3>Low-cost electronics for classic &amp; race cars</h3>
+          <p>Affordable gauges, controllers, and add-on modules designed for vintage and track cars. Modern function, sensible price.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="why" class="alt">
+    <div class="wrap split">
+      <div>
+        <span class="eyebrow">// Why Ranch Racing</span>
+        <h2>Built like it's going on our own car</h2>
+        <p style="color:var(--muted)">A harness is the nervous system of the car. When it's done right you never think about it again. That's the goal on every job.</p>
+        <a class="btn" href="#contact" style="margin-top:12px">Talk about your build</a>
+      </div>
+      <ul class="checklist">
+        <li><strong>Motorsport-grade materials</strong><span>Proper wire, sealed connectors, and protective sleeving where it matters.</span></li>
+        <li><strong>Documented &amp; labeled</strong><span>Every circuit labeled, with a wiring diagram you can actually use later.</span></li>
+        <li><strong>Engineering, not guesswork</strong><span>Circuits sized for the load, fused correctly, and routed for heat and vibration.</span></li>
+        <li><strong>Honest pricing</strong><span>Classic and grassroots racing budgets are real. We design for them.</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="process">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">// Process</span>
+        <h2>How a job runs</h2>
+      </div>
+      <div class="steps">
+        <div class="step"><h3>Tell us the build</h3><p>Car, engine, ECU, what's working and what isn't. Photos help.</p></div>
+        <div class="step"><h3>Plan &amp; quote</h3><p>We scope the circuits, components, and layout, then send a clear quote.</p></div>
+        <div class="step"><h3>Build &amp; test</h3><p>Built on the bench, continuity-checked, and tested before it ships.</p></div>
+        <div class="step"><h3>Install &amp; support</h3><p>Documentation goes with it, and we're here if questions come up.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" class="alt">
+    <div class="wrap split">
+      <div>
+        <span class="eyebrow">// Contact</span>
+        <h2>Start a project</h2>
+        <p style="color:var(--muted)">Tell us about your car and what you need. We'll get back to you with questions or a quote.</p>
+      </div>
+      <!-- FORMSPREE: replace YOUR_FORM_ID below with the ID from formspree.io (the part after /f/) -->
+      <form id="contact-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+        <div class="row">
+          <label>Name<input name="name" autocomplete="name" required></label>
+          <label>Email<input type="email" name="email" autocomplete="email" required></label>
+        </div>
+        <div class="row">
+          <label>Vehicle<input name="vehicle" placeholder="Year / make / model"></label>
+          <label>Service
+            <select name="service">
+              <option>Custom wiring harness</option>
+              <option>Custom PCB / electronics</option>
+              <option>Repair &amp; diagnostics</option>
+              <option>Classic / race car electronics</option>
+              <option>Something else</option>
+            </select>
+          </label>
+        </div>
+        <label>Project details<textarea name="message" required placeholder="What are you building, and what do you need?"></textarea></label>
+        <input class="hp" type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <button class="btn" type="submit">Send message</button>
+        <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>&copy; <span id="year">2026</span> Ranch Racing</span>
+    <span class="mono">ranchracing.com</span>
+  </div>
+</footer>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  const form = document.getElementById('contact-form');
+  const status = document.getElementById('form-status');
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const btn = form.querySelector('button');
+    btn.disabled = true;
+    status.className = 'form-status';
+    status.textContent = 'Sending…';
+    try {
+      const res = await fetch(form.action, {
+        method: 'POST',
+        body: new FormData(form),
+        headers: { Accept: 'application/json' }
+      });
+      if (!res.ok) throw new Error();
+      form.reset();
+      status.className = 'form-status ok';
+      status.textContent = 'Thanks! Your message is on its way. We\'ll be in touch soon.';
+    } catch {
+      status.className = 'form-status err';
+      status.textContent = 'Something went wrong sending that. Please try again in a moment.';
+    } finally {
+      btn.disabled = false;
+    }
+  });
+</script>
+</body>
+</html>
