@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Projects | Ranch Racing</title>
+  <meta name="description" content="Wiring harness and electronics projects built by Ranch Racing for classic cars and race cars.">
+  <link rel="canonical" href="https://ranchracing.com/projects.html">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="site.css">
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <a class="brand" href="index.html" aria-label="Ranch Racing home">
+      <img src="favicon.svg" alt="">
+      <span>Ranch <b>Racing</b></span>
+    </a>
+    <nav aria-label="Main">
+      <ul>
+        <li><a href="index.html#services">Services</a></li>
+        <li><a href="index.html#why">Why us</a></li>
+        <li><a href="index.html#process">Process</a></li>
+        <li><a href="index.html#contact">Contact</a></li>
+        <li class="dropdown current">
+          <button class="dd-toggle" type="button" aria-expanded="false" aria-controls="about-menu">About
+            <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m2 4 4 4 4-4"/></svg>
+          </button>
+          <ul class="dd-menu" id="about-menu">
+            <li><a href="projects.html" aria-current="page">Projects</a></li>
+            <li><a href="about.html">Who we are</a></li>
+            <li><a href="testimonials.html">Testimonials</a></li>
+            <li><a href="info.html">General info</a></li>
+          </ul>
+        </li>
+      </ul>
+    </nav>
+    <a class="btn" href="index.html#contact">Get a quote</a>
+  </div>
+</header>
+
+<main>
+  <section class="page-hero">
+    <div class="wrap">
+      <span class="eyebrow">// Projects</span>
+      <h1>Recent builds</h1>
+      <p>A look at harnesses, electronics, and repairs we've done for classic and race cars.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <div class="grid">
+        <!-- PROJECT: copy this <article> block once per project -->
+        <article class="card project">
+          <div class="photo">[Project photo]</div><!-- replace with: <div class="photo"><img src="images/projects/NAME.jpg" alt="DESCRIBE THE PHOTO"></div> -->
+          <div class="body">
+            <span class="vehicle">[Year Make Model]</span>
+            <h3>[Project name]</h3>
+            <p>[What the customer needed, what was built, and anything notable about it.]</p>
+            <div class="chips"><span>[Harness]</span><span>[EFI]</span></div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="alt cta-band">
+    <div class="wrap">
+      <h2>Have a build in mind?</h2>
+      <p>Tell us about your car and what you need.</p>
+      <a class="btn" href="index.html#contact">Start a project</a>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>&copy; <span id="year">2026</span> Ranch Racing</span>
+    <span class="mono">ranchracing.com</span>
+  </div>
+</footer>
+
+<script src="site.js"></script>
+</body>
+</html>
