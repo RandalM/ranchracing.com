@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Harness Builder | Ranch Racing</title>
+  <meta name="description" content="Sketch your wiring harness in the browser: place connectors, draw wires, and send the layout to Ranch Racing for a quote.">
+  <link rel="canonical" href="https://ranchracing.com/builder.html">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="site.css">
+  <link rel="stylesheet" href="builder.css">
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <a class="brand" href="index.html" aria-label="Ranch Racing home">
+      <img src="favicon.svg" alt="">
+      <span>Ranch <b>Racing</b></span>
+    </a>
+    <nav aria-label="Main">
+      <ul>
+        <li><a href="index.html#services">Services</a></li>
+        <li><a href="index.html#why">Why us</a></li>
+        <li><a href="index.html#process">Process</a></li>
+        <li><a href="builder.html" aria-current="page">Harness Builder</a></li>
+        <li><a href="index.html#contact">Contact</a></li>
+        <li class="dropdown">
+          <button class="dd-toggle" type="button" aria-expanded="false" aria-controls="about-menu">About
+            <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m2 4 4 4 4-4"/></svg>
+          </button>
+          <ul class="dd-menu" id="about-menu">
+            <li><a href="projects.html">Projects</a></li>
+            <li><a href="about.html">Who we are</a></li>
+            <li><a href="info.html">General info</a></li>
+          </ul>
+        </li>
+      </ul>
+    </nav>
+    <a class="btn" href="index.html#contact">Get a quote</a>
+  </div>
+</header>
+
+<main>
+  <section class="page-hero page-hero-compact">
+    <div class="wrap">
+      <span class="eyebrow">// Harness Builder</span>
+      <h1>Sketch your harness</h1>
+      <p>Drop in generic connectors, draw wires pin-to-pin, and send us the layout. We'll match real connectors and pricing from there &mdash; no login, nothing installed, runs right here in your browser.</p>
+    </div>
+  </section>
+
+  <section class="builder-section">
+    <div class="wrap">
+      <div id="builder-app" class="builder-app" aria-busy="true">
+
+        <div id="builder-loading" class="builder-loading">
+          <div class="spinner" aria-hidden="true"></div>
+          <p>Loading the harness builder&hellip; (first load only, a few seconds)</p>
+        </div>
+
+        <div class="builder-toolbar">
+          <div class="tool-group">
+            <label>Pins
+              <input type="number" id="pin-count" min="1" max="48" value="4">
+            </label>
+            <label>Label
+              <input type="text" id="conn-label" placeholder="e.g. Injector 1" maxlength="40">
+            </label>
+            <button class="btn ghost" id="add-connector-btn" type="button">+ Add connector</button>
+            <button class="btn ghost" id="add-splice-btn" type="button">+ Add splice</button>
+            <span class="tool-hint mono">Drag from a pin to wire it &middot; drag to move &middot; Ctrl-drag a splice to wire from it &middot; Del to remove selection</span>
+          </div>
+          <div class="tool-group tool-group-right">
+            <button class="btn ghost" id="load-btn" type="button">Open&hellip;</button>
+            <input type="file" id="load-input" accept=".json,.harness.json" hidden>
+            <button class="btn ghost" id="save-json-btn" type="button">Save .harness.json</button>
+            <div class="dropdown export-dropdown">
+              <button class="dd-toggle" type="button" id="export-toggle" aria-expanded="false" aria-controls="export-menu">Export
+                <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m2 4 4 4 4-4"/></svg>
+              </button>
+              <ul class="dd-menu" id="export-menu">
+                <li><a href="#" id="export-svg">Wiring diagram (SVG)</a></li>
+                <li><a href="#" id="export-wirelist">Wire list (CSV)</a></li>
+                <li><a href="#" id="export-bom">BOM (CSV)</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="builder-body">
+          <div class="canvas-wrap">
+            <canvas id="harness-canvas"></canvas>
+            <div class="canvas-controls mono">
+              <button type="button" id="zoom-out" aria-label="Zoom out">&minus;</button>
+              <button type="button" id="zoom-fit" aria-label="Fit view">Fit</button>
+              <button type="button" id="zoom-in" aria-label="Zoom in">+</button>
+            </div>
+          </div>
+
+          <aside class="builder-side">
+            <div class="side-tabs" role="tablist">
+              <button class="side-tab" data-tab="details" aria-selected="true" type="button">Details</button>
+              <button class="side-tab" data-tab="checks" aria-selected="false" type="button">Checks<span id="checks-badge" class="badge" hidden>0</span></button>
+            </div>
+
+            <div class="side-panel" data-panel="details">
+              <p class="side-empty" id="details-empty">Select a connector or wire to edit it.</p>
+              <form id="connector-form" class="prop-form" hidden>
+                <h4 id="c-kind-label">Connector</h4>
+                <div class="row">
+                  <label>Ref <input type="text" id="c-ref" readonly class="mono"></label>
+                  <label>Label <input type="text" id="c-label"></label>
+                </div>
+                <div class="row" id="c-pins-wrap">
+                  <label>Pins <input type="number" id="c-positions" min="1" max="48"></label>
+                  <label class="row-check" style="margin-top:20px"><input type="checkbox" id="c-flipped"> Flip side</label>
+                </div>
+                <button type="button" class="btn ghost danger" id="c-delete">Delete</button>
+              </form>
+              <form id="wire-form" class="prop-form" hidden>
+                <h4>Wire</h4>
+                <label>Label <input type="text" id="w-label" class="mono"></label>
+                <label>Signal name <input type="text" id="w-signal"></label>
+                <div class="row">
+                  <label>AWG
+                    <select id="w-awg"></select>
+                  </label>
+                  <label>Color
+                    <select id="w-color"></select>
+                  </label>
+                </div>
+                <div class="row">
+                  <label>Type
+                    <select id="w-type"></select>
+                  </label>
+                  <label>Length (mm) <input type="number" id="w-length" min="0" step="10"></label>
+                </div>
+                <button type="button" class="btn ghost danger" id="w-delete">Delete wire</button>
+              </form>
+            </div>
+
+            <div class="side-panel" data-panel="checks" hidden>
+              <ul class="checks-list" id="checks-list"></ul>
+              <p class="side-empty" id="checks-empty">No issues &mdash; looking good.</p>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="alt cta-band">
+    <div class="wrap quote-wrap">
+      <h2>Ready for a quote?</h2>
+      <p>Send us your layout &mdash; we'll assign real connectors, size the wire, and price it out.</p>
+      <form id="quote-form" class="js-formspree quote-form" action="https://formspree.io/f/xdeavprg" method="POST">
+        <div class="row">
+          <label>Name<input name="name" autocomplete="name" required></label>
+          <label>Email<input type="email" name="email" autocomplete="email" required></label>
+        </div>
+        <label>Anything we should know?<textarea name="message" placeholder="Car, timeline, questions about the layout&hellip;"></textarea></label>
+        <input type="hidden" name="_subject" value="Harness Builder quote request">
+        <input type="hidden" name="harness_json" id="quote-harness-json">
+        <input class="hp" type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <button class="btn" type="submit">Send layout for a quote</button>
+        <p class="form-status" role="status" aria-live="polite"></p>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>&copy; <span id="year">2026</span> Ranch Racing</span>
+    <span class="mono">ranchracing.com</span>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/pyodide/v0.26.4/full/pyodide.js"></script>
+<script src="site.js"></script>
+<script src="builder.js" type="module"></script>
+</body>
+</html>
