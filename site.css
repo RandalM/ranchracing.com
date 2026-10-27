@@ -80,7 +80,7 @@ nav a:hover, nav a[aria-current="page"] { color: var(--text); }
 .btn.ghost:hover { border-color: var(--accent); }
 .nav .btn { padding: 8px 16px; font-size: .9rem; }
 @media (max-width: 760px) {
-  nav ul > li:not(.dropdown) { display: none; }
+  nav > ul > li:not(.dropdown) { display: none; }
   .nav { gap: 12px; }
   .nav .btn { padding: 7px 12px; font-size: .85rem; }
   .brand span { font-size: 1.3rem; }
